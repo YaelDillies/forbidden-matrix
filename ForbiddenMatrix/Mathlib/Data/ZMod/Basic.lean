@@ -7,3 +7,4 @@ import Mathlib.Data.ZMod.Basic
   · change (⟨_, _⟩ : ZMod (n + 1)) = ⟨_, _⟩
     congr
     simp
+    lia

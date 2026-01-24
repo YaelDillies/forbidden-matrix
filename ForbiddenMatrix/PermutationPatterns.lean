@@ -901,7 +901,7 @@ theorem ex_permPattern_le (σ : Perm (Fin k)) (n : ℕ) :
       have : k ^ 4 * (n' / k ^ 2) = k ^ 2 * n' := by
         suffices k ^ 4 * (n' / k ^ 2) = (k ^ 4/k ^ 2) * n' by
           rw [this]
-          rw [Nat.pow_div (by cutsat)]
+          rw [Nat.pow_div (by lia)]
           trivial
         have : k ^ 2 ∣ k ^ 4 := pow_dvd_pow _ <| by omega
         rw [Nat.pow_div]

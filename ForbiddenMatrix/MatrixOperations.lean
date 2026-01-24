@@ -1,4 +1,5 @@
 import Mathlib.Data.Fin.VecNotation
+import Mathlib.Data.Fintype.Basic
 import Mathlib.Data.Vector.Basic
 import Mathlib.Order.Fin.Basic
 import Mathlib.Tactic.FinCases
