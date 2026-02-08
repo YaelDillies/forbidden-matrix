@@ -50,7 +50,7 @@ def main():
             if project_files[file_path]["num_sorries"] > 0: continue
             if project_files[file_path]["depends"]: continue
             module_name = file_path.replace('/','.')[:-5]
-            text += f"* [`{module_name}`](https://github.com/YaelDillies/ForbiddenMatrix/blob/master/{file_path}) \n"
+            text += f"* [`{module_name}`](https://github.com/YaelDillies/forbidden-matrix/blob/master/{file_path}) \n"
             for pr in project_files[file_path]["prs"]:
                 if pr["title"][:4] == "perf": continue
                 if pr["is_draft"]: continue
@@ -72,9 +72,9 @@ def main():
             num_sorries = project_files[file_path]["num_sorries"]
             module_name = file_path.replace('/','.')[:-5]
             if num_sorries == 1:
-                text += f"* [`{module_name}`](https://github.com/YaelDillies/ForbiddenMatrix/blob/master/{file_path}) {num_sorries} sorry\n"
+                text += f"* [`{module_name}`](https://github.com/YaelDillies/forbidden-matrix/blob/master/{file_path}) {num_sorries} sorry\n"
             else:
-                text += f"* [`{module_name}`](https://github.com/YaelDillies/ForbiddenMatrix/blob/master/{file_path}) {num_sorries} sorries\n"
+                text += f"* [`{module_name}`](https://github.com/YaelDillies/forbidden-matrix/blob/master/{file_path}) {num_sorries} sorries\n"
 
         writer.write(text)
 
