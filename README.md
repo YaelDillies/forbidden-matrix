@@ -19,19 +19,18 @@ matrix theory.
 The formal system which we are using as a target system is Lean's dependent type theory. Lean is a
 project being developed by the [Lean FRO](https://lean-fro.org/).
 
-### Code organisation
+## Code organisation
 
 The Lean code is contained in the directory `ForbiddenMatrix/`. The subdirectories are:
 * `Mathlib`: Material missing from existing mathlib developments
-* `Prereqs`: New developments to be integrated to mathlib
 
-## Build the Lean files
+## Getting the project
 
 To build the Lean files of this project, you need to have a working version of Lean.
-See [the installation instructions](https://leanprover-community.github.io/get_started.html) (under Regular install).
-Alternatively, click on the button below to open a Gitpod workspace containing the project.
+See [the installation instructions](https://lean-lang.org/install/).
+Alternatively, click on the button below to open an Ona workspace containing the project.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/YaelDillies/forbidden-matrix)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/YaelDillies/mean-fourier)
 
 In either case, run `lake exe cache get` and then `lake build` to build the project.
 
@@ -39,12 +38,6 @@ In either case, run `lake exe cache get` and then `lake build` to build the proj
 
 See instructions at https://github.com/PatrickMassot/leanblueprint/.
 
-## Acknowledgements
+## Contributing
 
-Our project builds on mathlib. We must therefore thank its numerous contributors without whom this
-project couldn't even have started.
-
-Much of the project infrastructure has been adapted from
-* [sphere eversion](https://leanprover-community.github.io/sphere-eversion/)
-* [liquid tensor experiment](https://github.com/leanprover-community/liquid/)
-* [unit fractions](https://github.com/b-mehta/unit-fractions/)
+This project is currently not open to contribution.
