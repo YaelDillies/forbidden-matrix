@@ -1,9 +1,15 @@
-import ForbiddenMatrix.Containment
+module
+
+public import ForbiddenMatrix.Containment
+public import Mathlib.Algebra.BigOperators.Group.Finset.Defs
+public import Mathlib.Data.Finset.Lattice.Fold
+public import Mathlib.Data.Fintype.Prod
+public import Mathlib.Order.Interval.Finset.Nat
+
 import Mathlib.Algebra.Order.BigOperators.Group.Finset
 import Mathlib.Algebra.Order.Monoid.Canonical.Basic
-import Mathlib.Data.Fintype.Prod
-import Mathlib.Data.Nat.Cast.Basic
-import Mathlib.Data.Nat.Lattice
+
+@[expose] public section
 
 open Finset
 

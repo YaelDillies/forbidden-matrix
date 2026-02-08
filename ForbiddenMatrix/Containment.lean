@@ -1,4 +1,8 @@
-import Mathlib.Data.Fintype.Pi
+module
+
+public import Mathlib.Data.Fintype.Pi
+
+@[expose] public section
 
 variable {α β γ δ : Type*} [LinearOrder α] [LinearOrder β] [LinearOrder γ] [LinearOrder δ]
   {P : α → β → Prop} {M : γ → δ → Prop}
@@ -8,16 +12,9 @@ variable {α β γ δ : Type*} [LinearOrder α] [LinearOrder β] [LinearOrder γ
 def Contains (P : α → β → Prop) (M : γ → δ → Prop) : Prop :=
   ∃ f : α → γ, StrictMono f ∧ ∃ g : β → δ, StrictMono g ∧ ∀ a b, P a b → M (f a) (g b)
 
-def containsB (P : α → β → Bool) (M : γ → δ → Bool) : Prop :=
-  ∃ f : α → γ, StrictMono f ∧ ∃ g : β → δ, StrictMono g ∧ ∀ a b, P a b → M (f a) (g b)
-
-instance [Fintype α] [DecidableRel (α := α) (· < ·)] [DecidableRel (α := γ) (· < ·)] {f : α → γ} :
-  Decidable (StrictMono f) := inferInstanceAs (Decidable (∀ _ _, _ → _))
-
-instance {P : α → β → Bool} {M : γ → δ → Bool} [DecidableRel (α := α) (· < ·)]
-    [DecidableRel (α := β) (· < ·)] [DecidableRel (α := γ) (· < ·)] [DecidableRel (α := δ) (· < ·)]
-    [Fintype α] [Fintype β] [Fintype γ] [Fintype δ] [DecidableEq α] [DecidableEq β] :
-    Decidable (containsB P M) :=
+instance {P : α → β → Prop} {M : γ → δ → Prop} [DecidableRel P] [DecidableRel M]
+    [DecidableLT α] [DecidableLT β] [DecidableLT γ] [DecidableLT δ]
+    [Fintype α] [Fintype β] [Fintype γ] [Fintype δ] : Decidable (Contains P M) :=
   inferInstanceAs <| Decidable <|
     ∃ f : α → γ, StrictMono f ∧ ∃ g : β → δ, StrictMono g ∧ ∀ a b, P a b → M (f a) (g b)
 

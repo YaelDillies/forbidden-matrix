@@ -1,12 +1,16 @@
+module
+
+public import Mathlib.Order.Basic
+
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Data.Fintype.Basic
-import Mathlib.Data.Vector.Basic
-import Mathlib.Order.Fin.Basic
 import Mathlib.Tactic.FinCases
+
+public section
 
 open OrderDual
 
-variable {α β γ δ : Type*} [LinearOrder α] [LinearOrder β] [LinearOrder γ] [LinearOrder δ]
+variable {α β γ δ : Type*}
 
 def L'' : Fin 2 → Fin 2 → Prop :=
   ![

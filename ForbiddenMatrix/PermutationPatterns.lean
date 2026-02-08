@@ -1,7 +1,17 @@
+module
+
+public import ForbiddenMatrix.SmallPatterns
+public import Mathlib.Algebra.Group.End
+public import Mathlib.Data.Nat.Choose.Basic
+
 import ForbiddenMatrix.Mathlib.Data.ZMod.Basic
-import ForbiddenMatrix.SmallPatterns
+import Mathlib.Combinatorics.Pigeonhole
+import Mathlib.Data.Finset.Sort
+import Mathlib.Data.Int.Interval
 import Mathlib.Tactic.Group
 import Mathlib.Tactic.Qify
+
+@[expose] public section
 
 open Finset Set OrderDual Equiv
 

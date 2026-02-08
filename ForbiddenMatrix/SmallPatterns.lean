@@ -1,12 +1,17 @@
-import ForbiddenMatrix.ExtremalFunction
+module
+
+public import ForbiddenMatrix.ExtremalFunction
+public import Mathlib.Data.Fin.VecNotation
+
 import ForbiddenMatrix.MatrixOperations
-import Mathlib.Algebra.CharP.Defs
-import Mathlib.Algebra.Group.Fin.Basic
+import Mathlib.Algebra.Order.Monoid.Canonical.Basic
 import Mathlib.Combinatorics.Enumerative.DoubleCounting
 import Mathlib.Combinatorics.Pigeonhole
 import Mathlib.Data.Finset.Sort
 import Mathlib.Data.Int.Interval
 import Mathlib.Logic.Equiv.Fin.Basic
+
+@[expose] public section
 
 open Finset Set
 
@@ -56,9 +61,9 @@ def HatPattern : Fin 2 → Fin 3 → Prop :=
         = #(.Ioo (-n : ℤ) n) := by simp; omega
       _ ≤ #{(i, j) : Fin n × Fin n | i = 0 ∨ j = 0} := by
         refine card_le_card_of_forall_subsingleton (fun z (i, j) ↦ z = i.val - j.val) ?_ ?_
-        · simp only [Finset.mem_Ioo, mem_filter, Finset.mem_univ, true_and, or_and_right, exists_or,
-            Prod.exists, exists_and_left, exists_eq_left, Fin.coe_ofNat_eq_mod, Nat.zero_mod,
-            CharP.cast_eq_zero, zero_sub, ← neg_eq_iff_eq_neg, sub_zero, and_imp]
+        · simp only [Finset.mem_Ioo, mem_filter, Finset.mem_univ, true_and, or_and_right,
+            exists_or, Prod.exists, exists_and_left, exists_eq_left, Fin.coe_ofNat_eq_mod,
+            Nat.zero_mod, Nat.cast_zero, zero_sub, ← neg_eq_iff_eq_neg, sub_zero, and_imp]
           rintro (z | z) hnz hzn
           · exact .inr ⟨⟨z, by simpa using hzn⟩, rfl⟩
           · exact .inl ⟨⟨z + 1, by simp [Int.negSucc_eq] at hnz; omega⟩, rfl⟩
