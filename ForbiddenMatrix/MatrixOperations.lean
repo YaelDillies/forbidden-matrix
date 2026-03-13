@@ -1,6 +1,6 @@
 module
 
-public import Mathlib.Order.Basic
+public import Mathlib.Order.OrderDual
 
 import Mathlib.Data.Fin.VecNotation
 import Mathlib.Data.Fintype.Basic
