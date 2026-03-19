@@ -53,11 +53,10 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: leanprover-community/upstreaming-dashboard-action@main
         with:
-          website-directory: "website"
-          project-name: "ForbiddenMatrix"
+          website-directory: ./website
+          project-name: ForbiddenMatrix
           include-drafts: true
-          relevant-labels: ["forbidden-matrix"]
-          branch-name: "master"
+          branch-name: master
 
       - name: File dependencies
         if: github.ref == 'refs/heads/master'
