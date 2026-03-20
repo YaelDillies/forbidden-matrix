@@ -1,10 +1,10 @@
 # Upstreaming dashboard
 
-It is crucial to continuously upstream code from ForbiddenMatrix to Mathlib. The way we organise this is with the following two lists, showing files with no ForbiddenMatrix dependencies depending on whether they contain the keyword `sorry` or not.
+The eventual goal of the ForbiddenMatrix project is to be fully upstreamed to Mathlib.
 
-## Files ready to upstream
-
-The following files are `sorry`-free and do not depend on any other ForbiddenMatrix, meaning they can be readily PRed to Mathlib.
+As such, it is crucial to continuously organise upstreaming from ForbiddenMatrix to Mathlib.
+The way we organise this is with the following two lists,
+showing files with no ForbiddenMatrix dependencies depending on whether they contain `sorry` or not.
 
 {% include _upstreaming_dashboard/ready_to_upstream_snippet.md %}
 
