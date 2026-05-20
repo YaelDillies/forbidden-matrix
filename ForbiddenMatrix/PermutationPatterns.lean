@@ -437,9 +437,8 @@ lemma density_WB {n k : ℕ} (h_n : 0 < n) (h_k : k ^ 2 ∣ n) (M : Fin n → Fi
       calc
         #t * (k - 1)
         _ = (k - 1) * q.choose k := by rw [mul_comm, tcard_eq_qck]
-        _ ≤ k * (q.choose k) := by gcongr; omega
-        _ < col_density WB j := h_contra
-        _ = #s := by simp [col_density, WB, s]; congr
+        _ ≤ k * q.choose k := by gcongr; omega
+        _ < #s := by simpa [col_density, WB, s] using h_contra
   simp only [mem_powersetCard, t] at hs
   obtain ⟨s_subset_C, s_card_k⟩ := hs
   -- simp [f] at hp'
@@ -557,8 +556,7 @@ lemma density_TB {n k : ℕ} (h_n : 0 < n) (h_k : k ^ 2 ∣ n) (M : Fin n → Fi
         #t * (k - 1)
         _ = (k - 1) * q.choose k := by rw [tcard_eq_qck, mul_comm]
         _ ≤ k * q.choose k := by gcongr; omega
-        _ < row_density TB i := h_contra
-        _ = #s := by simp [row_density, TB, s]; congr
+        _ < #s := by simpa [row_density, TB, s] using h_contra
   simp only [mem_powersetCard, t] at hs
   obtain ⟨s_subset_R, s_card_k⟩ := hs
   suffices Contains (PermPattern σ) M by contradiction
@@ -847,7 +845,7 @@ private lemma ex_permutation_to_dvd (σ : Perm (Fin k)) (n : ℕ) (hkn : k ^ 2 <
           use b.1.castLE ‹_›, b.2.castLE ‹_›
           simp [M2, P, T, W, fr, hb, I]
       calc
-        density M2 = #s := by simp [density, s]; congr
+        density M2 = #s := by simp [density, s]
         _ = #t := card_st
         _ = density M' := by simp [density, t]
         _ ≤ ex (PermPattern σ) n' := density_le_ex_of_not_contains M' claim
@@ -884,7 +882,7 @@ theorem ex_permPattern_le (σ : Perm (Fin k)) (n : ℕ) :
       ex (PermPattern σ) n ≤ n^2 := ex_le_sq n
       _ ≤ k ^ 2 * n := by rw [Nat.pow_two]; exact Nat.mul_le_mul_right n base
       _ ≤ 2 * k ^ 4 * n := by
-        have : k ^ 2 ≤ k ^ 4 := by gcongr <;> omega
+        have : k ^ 2 ≤ k ^ 4 := by gcongr; omega
         have : k ^ 2 ≤ 2 * k ^ 4 := by omega
         exact Nat.mul_le_mul_right n this
       _ ≤ 2 * k ^ 4* K * n := by aesop
