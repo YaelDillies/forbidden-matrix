@@ -174,28 +174,16 @@ theorem den_eq_sum_blk_den (M : Fin n → Fin n → Prop) (hqn : q ∣ n) :
   have h_sum_card := Finset.card_eq_sum_card_fiberwise H
   suffices claim : ∀ k, #{x ∈ s | f x = k} = blk_den M k.1 k.2 by simpa [← claim]
   -- proof of the last claim
-  intro k
-  dsimp [blk_den, rectPtsetMatrix]
-  apply Finset.card_bij (fun (p : Fin n × Fin n) _ ↦ p) ?hi ?i_inj ?i_surj
-  · intro p hp
-    simp only [mem_filter, Finset.mem_univ, true_and, s] at hp
-    simp only [rectPtsetqMatrix, rectPtsetq, Prod.mk.eta, mem_filter, Finset.mem_univ, true_and]
-    have := NeZero.ne q
-    aesop
-  · -- i_inj
-    aesop
-  -- i_surj : ∀ b ∈ t, ∃ a, ∃ (ha : a ∈ s), i a ha = b
-  intro p hp
-  simp only [Prod.mk.eta, mem_filter, Finset.mem_univ, true_and, rectPtsetqMatrix, rectPtsetq]
-    at hp
-  simp only [mem_filter, Finset.mem_univ, true_and, exists_prop, exists_eq_right, s]
-  refine ⟨hp.1, ?_⟩
-  replace hp := hp.2
-  simp only [rectPtset, q.mul_comm, Finset.mem_Ico, mem_product, mem_filter, Finset.mem_univ,
-    true_and] at hp
-  obtain ⟨⟨p1l, p1h⟩, p2l, p2h⟩ := hp
-  simp only [Prod.ext_iff, Fin.ext_iff, Q, f, fq]
-  constructor <;> apply Nat.div_eq_of_lt_le <;> assumption
+  intro ⟨a, b⟩
+  unfold blk_den rectPtsetqMatrix rectPtsetq rectPtset
+  congr! 1
+  simp only [Finset.mem_Ico, Prod.mk.eta, mem_product, mem_filter, Finset.mem_univ, true_and, f, fq,
+    s]
+  ext ⟨c, d⟩
+  have hq : 0 < q := NeZero.pos _
+  simp only [mem_filter, Finset.mem_univ, true_and, Prod.mk.injEq, Fin.ext_iff, Nat.div_eq_iff hq,
+    and_congr_right_iff, Q]
+  grind
 
 private lemma f_pt_to_blk {n q : ℕ} (hqn : q ∣ n) {i j : Fin (n / q)} {a b : Fin n}
     (H : (a, b) ∈ rectPtsetq n q i j) :
@@ -658,16 +646,10 @@ private lemma blk_den_k4 (hkn : k ^ 2 ∣ n) (M : Fin n → Fin n → Prop) :
   simpa using Nat.pow_add k 2 2
 
 private lemma k_pow_n_mul (hkn : k ^ 2 ∣ n) :
-    let K := (k ^ 2).choose k
-    k ^ 4 * (n / k ^ 2 * (k * K)) = n * k ^ 3 * K := by
-  qify [hkn]
-  ring_nf
-  have := calc
-        k ^ 5 * (n / k ^ 2)
-    _ = k ^ 3 * (n / k ^ 2 * k ^ 2) := by group
-    _ = k ^ 3 * n := by rw [Nat.div_mul_cancel ‹_›]
-  qify at this
-  rw [this, mul_right_comm]
+    k ^ 4 * (n / k ^ 2 * (k * (k ^ 2).choose k)) = n * k ^ 3 * (k ^ 2).choose k := calc
+      k ^ 4 * (n / k ^ 2 * (k * (k ^ 2).choose k))
+  _ = (n / k ^ 2 * k ^ 2) * k ^ 3 * (k ^ 2).choose k := by group
+  _ = n * k ^ 3 * (k ^ 2).choose k := by rw [Nat.div_mul_cancel ‹_›]
 
 lemma ex_perm_recurrence (σ : Perm (Fin k)) (n : ℕ) (hkn : k ^ 2 ∣ n) :
     ex (PermPattern σ) n

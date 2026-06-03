@@ -84,7 +84,7 @@ def rectPtset (n a₁ b₁ a₂ b₂ : ℕ) : Finset (Fin n × Fin n) :=
 
 open scoped Classical in noncomputable
 def rectPtsetMatrix {n : ℕ} (M : Fin n → Fin n → Prop) (a₁ b₁ a₂ b₂ : ℕ) : Finset (Fin n × Fin n) :=
-  {(a, b) | M a b ∧ (a, b) ∈ (rectPtset n a₁ b₁ a₂ b₂)}
+  {(a, b) | M a b ∧ (a, b) ∈ rectPtset n a₁ b₁ a₂ b₂}
 
 open scoped Classical in noncomputable
 def rectPtsetSubsetMatrix {n : ℕ} (M : Fin n → Fin n → Prop) (R C : Finset (Fin n)) :
@@ -198,7 +198,7 @@ theorem le_ex_self_of_two_points (P : α → β → Prop) (n : ℕ)
 lemma exists_av_and_ex_eq {n : ℕ} {P : α → β → Prop} (P_nonempty : ∃ a b, P a b) :
     ∃ M : Fin n → Fin n → Prop, ¬ Contains P M ∧ ex P n = density M := by
   classical
-  simpa using Finset.exists_mem_eq_sup {M : Fin n → Fin n → Prop | ¬ Contains P M}
+  simpa [ex] using Finset.exists_mem_eq_sup {M : Fin n → Fin n → Prop | ¬ Contains P M}
     ⟨_, by simpa using not_contains_false P P_nonempty⟩ density
 
 theorem split_density {n : ℕ} (M : Fin n → Fin n → Prop) (Pred : Fin n → Fin n → Prop) :
