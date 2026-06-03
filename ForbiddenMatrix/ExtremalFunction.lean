@@ -84,7 +84,7 @@ def rectPtset (n a₁ b₁ a₂ b₂ : ℕ) : Finset (Fin n × Fin n) :=
 
 open scoped Classical in noncomputable
 def rectPtsetMatrix {n : ℕ} (M : Fin n → Fin n → Prop) (a₁ b₁ a₂ b₂ : ℕ) : Finset (Fin n × Fin n) :=
-  {(a, b) | M a b ∧ (a, b) ∈ (rectPtset n a₁ b₁ a₂ b₂)}
+  {(a, b) | M a b ∧ (a, b) ∈ rectPtset n a₁ b₁ a₂ b₂}
 
 open scoped Classical in noncomputable
 def rectPtsetSubsetMatrix {n : ℕ} (M : Fin n → Fin n → Prop) (R C : Finset (Fin n)) :
