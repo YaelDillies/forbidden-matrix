@@ -41,14 +41,15 @@ theorem ex_identityPattern_le (k n : ℕ) : ex (IdentityPattern k) n ≤ (2 * n 
   let t : Finset ℤ := Icc (-n + 1) (n - 1)
   obtain ⟨p, hp, hp'⟩ : ∃ p ∈ t, k - 1 < #{x ∈ s | d x = p} := by
     apply exists_lt_card_fiber_of_mul_lt_card_of_maps_to
-    · simp [s, d, t]; omega
-    convert M_large_density
+    · simp [s, d, t]
+      grind
+    convert! M_large_density
     simp [t]
-    omega
+    lia
   let fiber : Finset (Fin n × Fin n) := {x ∈ s | d x = p}
   let fiberSnd : Finset (Fin n) := {x.2 | x ∈ fiber}
   have card_fiber : #fiber = #fiberSnd := by apply card_bij fun a _ ↦ a.2 <;> aesop
-  have le_card_fiberSnd : k ≤ #fiberSnd := by simp [← card_fiber, fiber]; omega
+  have le_card_fiberSnd : k ≤ #fiberSnd := by simp [← card_fiber, fiber]; lia
   let g := fiberSnd.orderEmbOfCardLe le_card_fiberSnd
   let f (i : Fin k) : Fin n := (ZMod.finEquiv n).symm p + g i
   have f_spec a (a' : Fin n) (ha : a' - g a = p) : f a = a' := by simp [f, ← ha]
@@ -60,7 +61,7 @@ theorem ex_identityPattern_le (k n : ℕ) : ex (IdentityPattern k) n ≤ (2 * n 
     obtain ⟨a', -, ha'⟩ := hga
     obtain ⟨b', -, hb'⟩ := hgb
     have hgab : g a < g b := by simpa
-    have hab' : a' < b' := by omega
+    have hab' : a' < b' := by grind
     simpa [f_spec _ _ ha', f_spec _ _ hb'] using hab'
   refine avoid_Ik ⟨f, mono_f, g, by simp [StrictMono], ?_⟩
   simp only [IdentityPattern, forall_eq']
@@ -100,7 +101,7 @@ def rectPtsetqMatrix (M : Fin n → Fin n → Prop) (q i j : ℕ) : Finset (Fin 
         rw [h2]
         have : n - q + q = n + q - q := by
           have := Nat.le_of_dvd hn hq
-          omega
+          lia
         rw [this]
         exact Eq.symm (Nat.eq_sub_of_add_eq rfl)
   calc
@@ -146,7 +147,7 @@ def blk_den (M : Fin n → Fin n → Prop) (i j : Fin (n / q)) : ℕ := #(rectPt
 @[simp] private lemma p_to_pq {p : Fin n × Fin n} (hq : q ≠ 0) :
     p ∈ rectPtset n (q * (p.1 / q)) (q * (p.1 / q + 1)) (q * (p.2 / q)) (q * (p.2 / q + 1)) := by
   simp only [rectPtset, Finset.mem_Ico, mem_product, mem_filter, Finset.mem_univ, true_and]
-  constructor <;> exact ⟨Nat.mul_div_le .., le_mul_div_add_one _ <| by omega⟩
+  constructor <;> exact ⟨Nat.mul_div_le .., le_mul_div_add_one _ <| by lia⟩
 
 open scoped Classical in
 theorem den_eq_sum_blk_den (M : Fin n → Fin n → Prop) (hqn : q ∣ n) :
@@ -295,7 +296,7 @@ lemma split_density_blk {n q : ℕ} (hqn : q ∣ n) (M : Fin n → Fin n → Pro
       convert den_submatrix_eq_sum_blk_den M hqn f2
     have : density M3 = ∑ ⟨i, j⟩ : Q with N i j , blk_den M i j := by
       convert den_submatrix_eq_sum_blk_den M hqn f3
-    omega
+    lia
   let M1' (i j : Fin n) : Prop := M i j ∧ ¬ P1 i j
   let M2' (i j : Fin n) : Prop := M1' i j ∧ P2 i j
   let M3' (i j : Fin n) : Prop := M1' i j ∧ ¬P2 i j
@@ -318,9 +319,9 @@ lemma split_density_blk {n q : ℕ} (hqn : q ∣ n) (M : Fin n → Fin n → Pro
     simp_all
   calc
     density M = density M1 + density M1' := split_density M P1
-    _        = density M1 + density M2' + density M3' := by omega
-    _         ≤ density M1 + density M2' + density M3 := by omega
-    _         ≤ density M1 + density M2 + density M3 := by omega
+    _        = density M1 + density M2' + density M3' := by lia
+    _         ≤ density M1 + density M2' + density M3 := by lia
+    _         ≤ density M1 + density M2 + density M3 := by lia
 
 open scoped Classical in
 theorem sum_blk_den_le_mul_den_blk {c : ℕ} (M : Fin n → Fin n → Prop)
@@ -425,7 +426,7 @@ lemma density_WB {n k : ℕ} (h_n : 0 < n) (h_k : k ^ 2 ∣ n) (M : Fin n → Fi
       calc
         #t * (k - 1)
         _ = (k - 1) * q.choose k := by rw [mul_comm, tcard_eq_qck]
-        _ ≤ k * q.choose k := by gcongr; omega
+        _ ≤ k * q.choose k := by gcongr; lia
         _ < #s := by simpa [col_density, WB, s] using h_contra
   simp only [mem_powersetCard, t] at hs
   obtain ⟨s_subset_C, s_card_k⟩ := hs
@@ -470,9 +471,9 @@ lemma density_WB {n k : ℕ} (h_n : 0 < n) (h_k : k ^ 2 ∣ n) (M : Fin n → Fi
     observe : f' a < f' b
     observe : ↑ (f' a : ℕ) +1 ≤ ↑(f' b : ℕ)
     calc
-      f a < q * (↑(f' a) + 1) := by convert ha_ub; simp [rectPtsetq, rectPtset]
-      _ ≤ q * ↑(f' b) := by exact Nat.mul_le_mul_left q this
-      _ ≤ f b := by convert hb_lb; simp [rectPtsetq, rectPtset]
+      f a < q * (↑(f' a) + 1) := by convert! ha_ub; simp [rectPtsetq, rectPtset]
+      _ ≤ q * ↑(f' b) := by gcongr
+      _ ≤ f b := by convert! hb_lb; simp [rectPtsetq, rectPtset]
   refine ⟨f, f_mono, g, g_mono, ?_⟩
   · -- show embedding of permutation
     simp only [PermPattern, forall_eq', *]
@@ -543,7 +544,7 @@ lemma density_TB {n k : ℕ} (h_n : 0 < n) (h_k : k ^ 2 ∣ n) (M : Fin n → Fi
       calc
         #t * (k - 1)
         _ = (k - 1) * q.choose k := by rw [tcard_eq_qck, mul_comm]
-        _ ≤ k * q.choose k := by gcongr; omega
+        _ ≤ k * q.choose k := by gcongr; lia
         _ < #s := by simpa [row_density, TB, s] using h_contra
   simp only [mem_powersetCard, t] at hs
   obtain ⟨s_subset_R, s_card_k⟩ := hs
@@ -586,9 +587,9 @@ lemma density_TB {n k : ℕ} (h_n : 0 < n) (h_k : k ^ 2 ∣ n) (M : Fin n → Fi
     observe : g' a < g' b
     observe : (g' a : ℕ) + 1 ≤ (g' b : ℕ)
     calc
-      g a < q * (g' a + 1) := by convert ha_ub; simp [rectPtsetq, rectPtset]
-      _ ≤ q * g' b := by exact Nat.mul_le_mul_left q this
-      _ ≤ g b := by convert hb_lb; simp [rectPtsetq, rectPtset]
+      g a < q * (g' a + 1) := by simpa [rectPtsetq, rectPtset, g] using ha_ub
+      _ ≤ q * g' b := by gcongr
+      _ ≤ g b := by simpa [rectPtsetq, rectPtset, g] using hb_lb
   · -- show embedding of permutation
     simp only [PermPattern, forall_eq']
     have : (∀ a, M (f' (σ⁻¹ a)) (g a)) ↔ ∀ a, M (f' a) (g (σ a)) := σ⁻¹.forall_congr (by simp)
@@ -724,7 +725,7 @@ lemma ex_perm_recurrence (σ : Perm (Fin k)) (n : ℕ) (hkn : k ^ 2 ∣ n) :
       _ ≤ k ^ 4 * ((n / k ^ 2) * (k * K)) := by
         gcongr; exact density_TB (NeZero.pos _) hkn M M_av_perm
       _ = n * k ^ 3 * K := k_pow_n_mul hkn
-  have h_sum_WB_TB : sum_WB + sum_TB ≤ 2 * (n * k ^ 3 * K) := by omega
+  have h_sum_WB_TB : sum_WB + sum_TB ≤ 2 * (n * k ^ 3 * K) := by lia
   calc
     ex (PermPattern σ) n
     _ = density M := M_max
@@ -864,8 +865,8 @@ theorem ex_permPattern_le (σ : Perm (Fin k)) (n : ℕ) :
       ex (PermPattern σ) n ≤ n^2 := ex_le_sq n
       _ ≤ k ^ 2 * n := by rw [Nat.pow_two]; exact Nat.mul_le_mul_right n base
       _ ≤ 2 * k ^ 4 * n := by
-        have : k ^ 2 ≤ k ^ 4 := by gcongr; omega
-        have : k ^ 2 ≤ 2 * k ^ 4 := by omega
+        have : k ^ 2 ≤ k ^ 4 := by gcongr; lia
+        have : k ^ 2 ≤ 2 * k ^ 4 := by lia
         exact Nat.mul_le_mul_right n this
       _ ≤ 2 * k ^ 4* K * n := by aesop
   · let n' : ℕ := n - n % k ^ 2
@@ -881,7 +882,7 @@ theorem ex_permPattern_le (σ : Perm (Fin k)) (n : ℕ) :
         _ = n' := by simp [n']
     observe o3 : NeZero n'
     have o4 : n' / k ^ 2 < n := by
-      have : 1 < k ^ 2 := by omega
+      have : 1 < k ^ 2 := by lia
       observe : n' / k ^ 2 < n'
       calc
         n' / k ^ 2 < n' := this
@@ -893,7 +894,7 @@ theorem ex_permPattern_le (σ : Perm (Fin k)) (n : ℕ) :
           rw [this]
           rw [Nat.pow_div (by lia)]
           trivial
-        have : k ^ 2 ∣ k ^ 4 := pow_dvd_pow _ <| by omega
+        have : k ^ 2 ∣ k ^ 4 := pow_dvd_pow _ <| by lia
         rw [Nat.pow_div]
         any_goals trivial
         rw [← Nat.mul_div_assoc (k ^ 4), mul_comm, Nat.mul_div_assoc n' this, Nat.pow_div]
@@ -918,7 +919,7 @@ theorem ex_permPattern_le (σ : Perm (Fin k)) (n : ℕ) :
       rw [this]
       observe : k ^ 2 - k + 2 = k ^ 2 + 2 - k
       rw [this]
-      omega
+      lia
     calc
       ex (PermPattern σ) n
         ≤ ex (PermPattern σ) n' + 2 * k ^ 2 * n := ex_permutation_to_dvd σ n hkn
