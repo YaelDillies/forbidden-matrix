@@ -125,6 +125,7 @@ def rectPtsetqMatrix (M : Fin n → Fin n → Prop) (q i j : ℕ) : Finset (Fin 
       q * (j+1) ≤ q * (n / q) := Nat.mul_le_mul_left q hj
       _     = n    := Nat.mul_div_cancel' hq
 
+set_option backward.isDefEq.respectTransparency false in
 @[simp] private lemma card_rectPtsetqMatrix (M : Fin n → Fin n → Prop) (hq : q ∣ n) (i j : ℕ)
     (h : i < n / q ∧ j < n / q) : #(rectPtsetqMatrix M q i j) ≤ q * q := by
   calc
@@ -599,6 +600,7 @@ lemma density_TB {n k : ℕ} (h_n : 0 < n) (h_k : k ^ 2 ∣ n) (M : Fin n → Fi
     simp only [g]
     rwa [H'] at H
 
+set_option backward.isDefEq.respectTransparency false in
 lemma blk_den_SB {n : ℕ} (k : ℕ) (M : Fin n → Fin n → Prop) :
     let q := k ^ 2
     let B := blkMatrix M q
