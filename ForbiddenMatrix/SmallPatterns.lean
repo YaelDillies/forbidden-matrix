@@ -42,7 +42,7 @@ def HatPattern : Fin 2 → Fin 3 → Prop :=
   simp [ex]
 
 @[simp] lemma ex_trivialPattern (n : ℕ) : ex TrivialPattern n = 0 := by
-  simp only [ex, sup_eq_zero, mem_filter, Finset.mem_univ, true_and, density, card_eq_zero,
+  simp only [ex, Finset.sup_eq_zero, mem_filter, Finset.mem_univ, true_and, density, card_eq_zero,
     not_imp_comm (a := Contains _ _), ← Finset.nonempty_iff_ne_empty, Finset.Nonempty, Prod.exists,
     forall_exists_index]
   exact fun M i j hij ↦ ⟨fun _ ↦ i, by simp [StrictMono], ![j], by simp [StrictMono], by simp [hij]⟩

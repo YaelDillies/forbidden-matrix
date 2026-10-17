@@ -689,7 +689,7 @@ lemma ex_perm_recurrence (σ : Perm (Fin k)) (n : ℕ) (hkn : k ^ 2 ∣ n) :
     have h2 : density SB ≤ ex (PermPattern σ) (n / q) := by
       suffices ¬ Contains (PermPattern σ) SB from density_le_ex_of_not_contains SB this
       show ¬ Contains (PermPattern σ) SB
-      · by_contra!
+      · by_contra
         simp only [Contains, SB] at this
         obtain ⟨f, hf, g, hg, H⟩ := this
         refine av_perm_contract_av_perm q _ M M_av_perm ?_
@@ -834,7 +834,7 @@ private lemma ex_permutation_to_dvd (σ : Perm (Fin k)) (n : ℕ) (hkn : k ^ 2 <
         _ = #t := card_st
         _ = density M' := by simp [density, t]
         _ ≤ ex (PermPattern σ) n' := density_le_ex_of_not_contains M' claim
-    by_contra!
+    by_contra
     suffices Contains (PermPattern σ) M by contradiction
     obtain ⟨f, hf, g, hg, prop⟩ := this
     refine ⟨fun i ↦ (f i).castLE ‹_›, hf, fun i ↦ (g i).castLE ‹_›, hg, ?_⟩
