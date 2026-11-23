@@ -133,31 +133,31 @@ theorem den_all1_matrix_col_subset {n : ℕ} (I : Finset (Fin n)) :
   simpa using density_mk_mem_product .univ I
 
 theorem den_all1_matrix_column_interval {n : ℕ} (a b : Fin n) :
-    let I := ({x | ↑x ∈ Finset.Icc a.1 b.1} : Finset (Fin n))
+    let I := ({x | ↑x ∈ Finset.Icc a.val b.val} : Finset (Fin n))
     let M (i j : Fin n) : Prop := (i, j) ∈ Finset.univ ×ˢ I
     density M = n * (b + 1 - a) := by
   extract_lets I M
-  have h1 : #I = #(.Icc a.1 b.1) := by
+  have h1 : #I = #(.Icc a.val b.val) := by
     apply card_interval
-    exact b.2
-  observe h2 : #(.Icc a.1 b.1) = b.1 +1 - a.1
+    exact b.isLt
+  observe h2 : #(.Icc a.val b.val) = b.val +1 - a.val
   calc
     density M = n * #I := by exact den_all1_matrix_col_subset I
-    _ = n * #(.Icc a.1 b.1) := by exact congrArg (HMul.hMul n) h1
+    _ = n * #(.Icc a.val b.val) := by exact congrArg (HMul.hMul n) h1
     _ = n * (b + 1 - a) := by exact congrArg (HMul.hMul n) h2
 
 theorem den_all1_matrix_row_interval {n : ℕ} (a b : Fin n) :
-    let I := ({x | ↑x ∈ Finset.Icc a.1 b.1} : Finset (Fin n))
+    let I := ({x | ↑x ∈ Finset.Icc a.val b.val} : Finset (Fin n))
     let M (i j : Fin n) : Prop := (i, j) ∈ I ×ˢ Finset.univ
     density M = n * (b + 1 - a) := by
   extract_lets I M
-  have h1 : #I = #(.Icc a.1 b.1) := by
+  have h1 : #I = #(.Icc a.val b.val) := by
     apply card_interval
-    exact b.2
-  observe h2 : #(.Icc a.1 b.1) = b.1 +1- a.1
+    exact b.isLt
+  observe h2 : #(.Icc a.val b.val) = b.val +1- a.val
   calc
     density M = n * #I := by exact den_all1_matrix_row_subset I
-    _ = n * #(.Icc a.1 b.1) := by exact congrArg (HMul.hMul n) h1
+    _ = n * #(.Icc a.val b.val) := by exact congrArg (HMul.hMul n) h1
     _ = n * (b + 1 - a) := by exact congrArg (HMul.hMul n) h2
 
 theorem den_all1_matrix_single_row {n : ℕ} (x : Fin n) :
