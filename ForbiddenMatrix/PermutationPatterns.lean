@@ -217,7 +217,7 @@ lemma den_submatrix_eq_sum_blk_den (M : Fin n → Fin n → Prop)
     density M1 = ∑ ⟨i, j⟩ : Q with B1 i j, blk_den M i j := by
   extract_lets B B1 fq M1 Q
   have B1_eq_blockM1 : B1 = blkMatrix M1 q := by
-    simp! [B1, B, blkMatrix, M1]
+    simp only [blkMatrix, Prod.exists, B1, B, M1]
     ext i j
     constructor
     · rintro ⟨⟨a, b, Hab, Hab2⟩, h_f1ij⟩
